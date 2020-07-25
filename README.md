@@ -24,11 +24,11 @@ BIOS is a special-purpose programming language. The language is specially design
 
     $ cat hello.bs
     fn main() {
-      var s : string = "Hello world!";
+      var s : string = "Hello world";
       print (s);
     }
 
     $ blang hello.bs
-    Hello world!
+    Hello world
 
 
