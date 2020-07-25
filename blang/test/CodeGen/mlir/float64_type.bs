@@ -1,0 +1,10 @@
+# RUN: %blang %s -emit=mlir 2>&1 | FileCheck %s
+
+fn fn1() {
+  var c : float64 = 2;
+}
+
+# CHECK-LABEL: func @fn1()
+# CHECK-NEXT:    %0 = "blang.constant_float"() {value = 2.000000e+00 : f64} : () -> f64
+# CHECK-NEXT:    "blang.return"() : () -> ()
+# CHECK-NEXT:  }

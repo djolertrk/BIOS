@@ -1,0 +1,14 @@
+# RUN: %blang %s -emit=ast 2>&1 | FileCheck %s
+
+fn main() {
+  var s : string = "example two";
+}
+
+# CHECK:     Module:
+# CHECK-NEXT:  Function
+# CHECK-NEXT:    Proto 'main' @
+# CHECK-NEXT:    Params: []
+# CHECK-NEXT:      Block {
+# CHECK-NEXT:        VarDecl s [type: string] @
+# CHECK-NEXT:          example two @
+# CHECK-NEXT:      } // Block

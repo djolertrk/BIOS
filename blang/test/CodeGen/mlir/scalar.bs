@@ -1,0 +1,13 @@
+# RUN: %blang %s -emit=mlir 2>&1 | FileCheck %s
+
+fn main() {
+  var a : tensor<2, 2> = 5.5;
+  print(a);
+}
+
+# CHECK-LABEL: func @main() {
+# CHECK-NEXT:    %0 = "blang.constant"() {value = dense<5.500000e+00> : tensor<f64>} : () -> tensor<f64>
+# CHECK-NEXT:    %1 = "blang.reshape"(%0) : (tensor<f64>) -> tensor<2x2xf64>
+# CHECK-NEXT:    "blang.print"(%1) : (tensor<2x2xf64>) -> ()
+# CHECK-NEXT:    "blang.return"() : () -> ()
+# CHECK-NEXT:  }

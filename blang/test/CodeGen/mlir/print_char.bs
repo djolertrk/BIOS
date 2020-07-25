@@ -1,0 +1,18 @@
+# RUN: %blang %s -emit=mlir-affine -opt 2>&1 | FileCheck %s
+# RUN: %blang %s -emit=mlir-llvm -opt 2>&1 | FileCheck %s --check-prefix=CHECK-LLVM
+# RUN: %blang %s -emit=jit -opt 2>&1 | FileCheck %s --check-prefix=CHECK-JIT
+
+fn main() {
+  var c : char = 65;
+  print(c);
+}
+
+# CHECK:   %c65_i8 = constant 65 : i8
+# CHECK:   "blang.print"(%c65_i8) : (i8) -> ()
+# CHECK:   return
+
+# CHECK-LLVM:  %0 = llvm.mlir.constant(65 : i8) : !llvm.i8
+# CHECK-LLVM:  llvm.call @printf({{.*}}, {{.*}}) : (!llvm<"i8*">, !llvm.i8) -> !llvm.i32
+# CHECK-LLVM:  llvm.return
+
+# CHECK-JIT: A

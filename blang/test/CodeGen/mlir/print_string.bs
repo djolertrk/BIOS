@@ -1,0 +1,36 @@
+# RUN: %blang %s -emit=mlir-affine -opt 2>&1 | FileCheck %s
+# RUN: %blang %s -emit=jit -opt 2>&1 | FileCheck %s --check-prefix=CHECK-JIT
+
+fn main() {
+  var s : string = "example two";
+  print(s);
+}
+
+# CHECK:  func @main() {
+# CHECK:    %c120_i8 = constant 120 : i8
+# CHECK:    %c97_i8 = constant 97 : i8
+# CHECK:    %c109_i8 = constant 109 : i8
+# CHECK:    %c112_i8 = constant 112 : i8
+# CHECK:    %c108_i8 = constant 108 : i8
+# CHECK:    %c101_i8 = constant 101 : i8
+# CHECK:    %c32_i8 = constant 32 : i8
+# CHECK:    %c116_i8 = constant 116 : i8
+# CHECK:    %c119_i8 = constant 119 : i8
+# CHECK:    %c111_i8 = constant 111 : i8
+# CHECK:    %0 = alloc() : memref<11xi8>
+# CHECK:    affine.store %c101_i8, %0[0] : memref<11xi8>
+# CHECK:    affine.store %c120_i8, %0[1] : memref<11xi8>
+# CHECK:    affine.store %c97_i8, %0[2] : memref<11xi8>
+# CHECK:    affine.store %c109_i8, %0[3] : memref<11xi8>
+# CHECK:    affine.store %c112_i8, %0[4] : memref<11xi8>
+# CHECK:    affine.store %c108_i8, %0[5] : memref<11xi8>
+# CHECK:    affine.store %c101_i8, %0[6] : memref<11xi8>
+# CHECK:    affine.store %c32_i8, %0[7] : memref<11xi8>
+# CHECK:    affine.store %c116_i8, %0[8] : memref<11xi8>
+# CHECK:    affine.store %c119_i8, %0[9] : memref<11xi8>
+# CHECK:    affine.store %c111_i8, %0[10] : memref<11xi8>
+# CHECK:    "blang.print"(%0) : (memref<11xi8>) -> ()
+# CHECK:    dealloc %0 : memref<11xi8>
+# CHECK:    return
+
+# CHECK-JIT: example two

@@ -1,0 +1,18 @@
+# RUN: %blang %s -emit=mlir-affine -opt 2>&1 | FileCheck %s
+# RUN: %blang %s -emit=mlir-llvm -opt 2>&1 | FileCheck %s --check-prefix=CHECK-MLIR-LLVM
+# RUN: %blang %s -emit=jit -opt 2>&1 | FileCheck %s --check-prefix=CHECK-JIT
+
+fn main() {
+  var c : float = 2;
+  print(c);
+}
+
+# CHECK:   %cst = constant 2.000000e+00 : f32
+# CHECK:   "blang.print"(%cst) : (f32) -> ()
+# CHECK:   return
+
+# CHECK-MLIR-LLVM:  %0 = llvm.mlir.constant(2.000000e+00 : f32) : !llvm.float
+# CHECK-MLIR-LLVM:  llvm.call @printf({{.*}}, {{.*}}) : (!llvm<"i8*">, !llvm.double) -> !llvm.i32
+# CHECK-MLIR-LLVM:  llvm.return
+
+# CHECK-JIT: 2.000000

@@ -1,0 +1,30 @@
+# RUN: %blang %s -emit=mlir 2>&1 | FileCheck %s
+
+fn multiply_transpose(a, b) {
+  return transpose(a) * transpose(b);
+}
+
+fn main() {
+  var a : tensor<2, 3> = [[1, 2, 3], [4, 5, 6]];
+  var b : tensor<2, 3> = [1, 2, 3, 4, 5, 6];
+
+  var c : tensor = multiply_transpose(a, b);
+  var d : tensor = multiply_transpose(b, a);
+  print(d);
+}
+
+# CHECK:       func @multiply_transpose([[VAL_0:%.*]]: tensor<*xf64>, [[VAL_1:%.*]]: tensor<*xf64>) -> tensor<*xf64>
+# CHECK:         [[VAL_2:%.*]] = "blang.transpose"([[VAL_0]]) : (tensor<*xf64>) -> tensor<*xf64>
+# CHECK-NEXT:    [[VAL_3:%.*]] = "blang.transpose"([[VAL_1]]) : (tensor<*xf64>) -> tensor<*xf64>
+# CHECK-NEXT:    [[VAL_4:%.*]] = "blang.mul"([[VAL_2]], [[VAL_3]]) : (tensor<*xf64>, tensor<*xf64>) -> tensor<*xf64>
+# CHECK-NEXT:    "blang.return"([[VAL_4]]) : (tensor<*xf64>) -> ()
+
+# CHECK:      func @main()
+# CHECK-NEXT:    [[VAL_5:%.*]] = "blang.constant"() {value = dense<{{\[\[}}1.000000e+00, 2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]> : tensor<2x3xf64>} : () -> tensor<2x3xf64>
+# CHECK-NEXT:    [[VAL_6:%.*]] = "blang.reshape"([[VAL_5]]) : (tensor<2x3xf64>) -> tensor<2x3xf64>
+# CHECK-NEXT:    [[VAL_7:%.*]] = "blang.constant"() {value = dense<[1.000000e+00, 2.000000e+00, 3.000000e+00, 4.000000e+00, 5.000000e+00, 6.000000e+00]> : tensor<6xf64>} : () -> tensor<6xf64>
+# CHECK-NEXT:    [[VAL_8:%.*]] = "blang.reshape"([[VAL_7]]) : (tensor<6xf64>) -> tensor<2x3xf64>
+# CHECK-NEXT:    [[VAL_9:%.*]] = "blang.generic_call"([[VAL_6]], [[VAL_8]]) {callee = @multiply_transpose} : (tensor<2x3xf64>, tensor<2x3xf64>) -> tensor<*xf64>
+# CHECK-NEXT:    [[VAL_10:%.*]] = "blang.generic_call"([[VAL_8]], [[VAL_6]]) {callee = @multiply_transpose} : (tensor<2x3xf64>, tensor<2x3xf64>) -> tensor<*xf64>
+# CHECK-NEXT:    "blang.print"([[VAL_10]]) : (tensor<*xf64>) -> ()
+# CHECK-NEXT:    "blang.return"() : () -> ()

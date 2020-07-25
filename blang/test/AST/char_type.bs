@@ -1,0 +1,14 @@
+# RUN: %blang %s -emit=ast 2>&1 | FileCheck %s
+
+fn main() {
+  var c : char = 'A';
+}
+
+# CHECK:     Module:
+# CHECK-NEXT:  Function
+# CHECK-NEXT:    Proto 'main' @
+# CHECK-NEXT:    Params: []
+# CHECK-NEXT:      Block {
+# CHECK-NEXT:        VarDecl c [type: char] @
+# CHECK-NEXT:          A @
+# CHECK-NEXT:      } // Block

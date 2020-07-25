@@ -1,0 +1,8 @@
+# RUN: %blang %s -emit=jit 2>&1 | FileCheck %s
+
+fn main() {
+  var c : tensor = 2;
+  print(c);
+}
+
+# CHECK: 2.000000

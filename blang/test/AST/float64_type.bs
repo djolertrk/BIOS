@@ -1,0 +1,14 @@
+# RUN: %blang %s -emit=ast 2>&1 | FileCheck %s
+
+fn main() {
+  var c : float64 = 1;
+}
+
+# CHECK:     Module:
+# CHECK-NEXT:  Function
+# CHECK-NEXT:    Proto 'main' @
+# CHECK-NEXT:    Params: []
+# CHECK-NEXT:      Block {
+# CHECK-NEXT:        VarDecl c [type: float64] @
+# CHECK-NEXT:          1.000000e+00 @
+# CHECK-NEXT:      } // Block
