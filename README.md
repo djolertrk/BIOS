@@ -34,4 +34,4 @@ BIOS is a special-purpose programming language. The language is specially design
 ## TODOs:
     ...
     n. add bioinformatics types (such as DNA)
-
+    n1. remove duplicated code
