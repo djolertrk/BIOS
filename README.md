@@ -31,4 +31,7 @@ BIOS is a special-purpose programming language. The language is specially design
     $ blang hello.bs
     Hello world
 
+## TODOs:
+    ...
+    n. add bioinformatics types (such as DNA)
 
