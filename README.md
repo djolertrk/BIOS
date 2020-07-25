@@ -17,7 +17,7 @@ BIOS is a special-purpose programming language. The language is specially design
 ## How to build
 
     $ mkdir build && cd build
-    $ cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="mlir;llvm;blang;" -DLLVM_ENABLE_LIBCXX=ON -DLLVM_TARGETS_TO_BUILD="X86" $PATH_TO_PROJECT//bios/llvm
+    $ cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="mlir;llvm;blang;" -DLLVM_ENABLE_LIBCXX=ON -DLLVM_TARGETS_TO_BUILD="X86" $PATH_TO_PROJECT/BIOS/llvm
     $ ninja && ninja check-blang
 
 ## Hello world
